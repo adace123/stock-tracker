@@ -1,0 +1,16 @@
+version: '3'
+services: 
+  web:
+    build: client/
+    ports: 
+      - "4200:4200"
+    volumes: 
+      - ./client:/root
+    depends_on: 
+      - server
+  server:
+    build: server/
+    ports: 
+      - 5000:5000
+    volumes: 
+      - ./server:/root
