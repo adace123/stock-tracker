@@ -1,10 +1,10 @@
-FROM node:10-alpine
+FROM node
 
 WORKDIR /root
 
-COPY package*.json ./
+COPY package.json .
 
-RUN npm install && apk update && apk add bash
+RUN yarn global add @angular/cli && yarn
 
 COPY . .
 

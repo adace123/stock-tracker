@@ -1,19 +1,16 @@
-import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, OnInit } from '@angular/core';
 import { StockDataStreamService } from '../../services/stock-data-stream.service';
-import { StockRecord, StockRecordResponse } from '../../models/stock';
 import { filter, distinct, map } from 'rxjs/operators';
+import { StockRecord, StockRecordResponse } from '../../models/stock';
 
 @Component({
   selector: 'app-stockchart',
   templateUrl: './stockchart.component.html',
   styleUrls: ['./stockchart.component.scss']
 })
-export class StockchartComponent implements AfterViewInit, OnInit {
-  @ViewChild('stockCanvas', {static: false}) canvas: ElementRef;
-  stockChart: Chart;
-  ticker: string;
+export class StockchartComponent implements OnInit {
   stocks: StockRecord[] = [];
+  ticker = 'Tesla';
 
   constructor(private stockService: StockDataStreamService) { }
 
@@ -25,26 +22,11 @@ export class StockchartComponent implements AfterViewInit, OnInit {
         distinct()
       )
       .subscribe(
-        (data: StockRecord) => console.log(data),
+        (data: StockRecord) => {
+          this.stocks = [...this.stocks, data];
+        },
         (err: any) => console.log(`Encountered error ${err}`)
       );
-  }
-
-  ngAfterViewInit() {
-    const ctx = this.canvas.nativeElement;
-    this.stockChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-      },
-      options: {}
-    });
   }
 
 }

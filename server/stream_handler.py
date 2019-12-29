@@ -9,7 +9,11 @@ class StockStreamHandler(Namespace):
 
     def __init__(self, path):
         super().__init__(path)
-        self.data = pd.read_csv('data/tesla-stock-price.csv') \
+        self.get_data()
+
+    def get_data(self):
+        ticker = getattr(self, 'ticker', 'tesla')
+        self.data = pd.read_csv(f'data/{ticker}-stock-price.csv') \
                 .sort_values('date').iterrows()
 
     def on_connect(self):
@@ -22,12 +26,11 @@ class StockStreamHandler(Namespace):
         i, row = next(self.data)
         return row.to_dict()
     
-    def on_stream_start(self, data):
+    def on_stream_start(self):
         while True:
             try:
                 emit('data', self.get_next_row())
                 time.sleep(random.randint(2, 10))
             except StopIteration:
-                break
+                self.get_data()
         
-        emit('stream_complete')

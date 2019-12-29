@@ -47,4 +47,7 @@ Thumbs.db
 
 __pycache__
 
+**/node_modules
+client/.npm/**
+client/.config/**
 .vscode

@@ -1,3 +1,4 @@
 <div>
-<canvas #stockCanvas></canvas>
+    <h3 id="chart-title">{{ticker | uppercase}}</h3>
+    <app-stock-chart-canvas [ticker]="ticker" [stocks]="stocks"></app-stock-chart-canvas>
 </div>

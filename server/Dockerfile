@@ -1,14 +1,10 @@
-FROM python:3.8-alpine
+FROM python:3.8
 
 WORKDIR /root
 
-RUN apk update && apk add --no-cache python3-dev libstdc++ && \
-    apk add --no-cache --virtual .build-deps g++ && \
-    ln -s /usr/include/locale.h /usr/include/xlocale.h
+COPY requirements.txt .
 
-COPY Pipfile* ./
-
-RUN pip install pipenv && pipenv install --system
+RUN pip install -r requirements.txt
 
 COPY . .
 

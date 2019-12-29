@@ -13,7 +13,7 @@ export class StockDataStreamService {
   constructor() { }
 
   select(stockTicker: string = 'tesla'): this {
-    this.socket = io(this.socketUrl, { origins: '*:*' });
+    this.socket = io(this.socketUrl);
 
     this.socket.on('connect', () => {
       this.socket.emit('select_ticker', {ticker: stockTicker});
@@ -27,7 +27,7 @@ export class StockDataStreamService {
       throw new Error('Not connected to data server');
     }
 
-    this.socket.emit('stream_start', {start: true});
+    this.socket.emit('stream_start');
     const dataStream: Observable<StockRecord> = new Observable(observer => {
       this.socket.on('data', (data: StockRecord) => observer.next(data));
     });

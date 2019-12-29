@@ -4,3 +4,6 @@
 
 .git
 .gitignore
+
+client/.config/**
+client/.npm/**
