@@ -1,5 +1,5 @@
 export interface StockRecord {
-    date: Date | string;
+    date: string;
     close: number;
     volume: number;
     open: number;

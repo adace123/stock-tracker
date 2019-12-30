@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StockDataStreamService } from '../../services/stock-data-stream.service';
-import { filter, distinct, map } from 'rxjs/operators';
+import { filter, distinct } from 'rxjs/operators';
 import { StockRecord, StockRecordResponse } from '../../models/stock';
 
 @Component({
@@ -11,6 +11,7 @@ import { StockRecord, StockRecordResponse } from '../../models/stock';
 export class StockchartComponent implements OnInit {
   stocks: StockRecord[] = [];
   ticker = 'Tesla';
+  streamPaused = false;
 
   constructor(private stockService: StockDataStreamService) { }
 
@@ -18,7 +19,6 @@ export class StockchartComponent implements OnInit {
     this.stockService.select('tesla').stream()
       .pipe(
         filter((value: StockRecordResponse) => Boolean(value) && typeof(value) === 'object'),
-        map((value: StockRecord) => ({...value, date: new Date(value.date)})),
         distinct()
       )
       .subscribe(
@@ -27,6 +27,11 @@ export class StockchartComponent implements OnInit {
         },
         (err: any) => console.log(`Encountered error ${err}`)
       );
+  }
+
+  setStreamState() {
+    this.streamPaused = !this.streamPaused;
+    this.stockService.toggle_stream(this.streamPaused);
   }
 
 }

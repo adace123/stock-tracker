@@ -1,4 +1,4 @@
 <div>
-    <h3 id="chart-title">{{ticker | uppercase}}</h3>
+    <h3 id="chart-title">{{ticker | uppercase}} - <mat-button-toggle (click)="setStreamState()">{{ this.paused ? 'Resume': 'Pause' }}</mat-button-toggle></h3>
     <app-stock-chart-canvas [ticker]="ticker" [stocks]="stocks"></app-stock-chart-canvas>
 </div>

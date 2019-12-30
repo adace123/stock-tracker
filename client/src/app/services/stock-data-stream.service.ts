@@ -34,4 +34,8 @@ export class StockDataStreamService {
     return dataStream;
   }
 
+  toggle_stream(state: boolean) {
+    this.socket.emit('toggle_stream', state);
+  }
+
 }

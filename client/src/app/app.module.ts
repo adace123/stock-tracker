@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { StockchartComponent } from './components/stockchart/stockchart.component';
 import { StockChartCanvasComponent } from './components/stock-chart-canvas/stock-chart-canvas.component';
+import { MatButtonModule } from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { StockChartCanvasComponent } from './components/stock-chart-canvas/stock
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
