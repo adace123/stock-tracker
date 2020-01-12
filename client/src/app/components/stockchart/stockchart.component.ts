@@ -11,7 +11,7 @@ import { StockRecord, StockRecordResponse } from '../../models/stock';
 export class StockchartComponent implements OnInit {
   stocks: StockRecord[] = [];
   ticker = 'Tesla';
-  streamPaused = false;
+  streamPaused = true;
 
   constructor(private stockService: StockDataStreamService) { }
 

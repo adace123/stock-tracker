@@ -1,8 +1,5 @@
-import { 
-  Component, OnInit, ViewChild, ElementRef, 
-  AfterViewInit, OnChanges, Input, SimpleChanges
- } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, OnInit, ViewChild, AfterViewInit, OnChanges, Input, SimpleChanges, ElementRef } from '@angular/core';
+import { Chart, ChartTooltipItem } from 'chart.js';
 import { StockRecord } from '../../models/stock';
 
 @Component({
@@ -15,6 +12,7 @@ export class StockChartCanvasComponent implements OnInit, AfterViewInit, OnChang
   @Input() ticker: string;
   @Input() stocks: StockRecord[] = [];
   private stockChart: Chart;
+  private toolTipLabels: string[] = ['close', 'open', 'high', 'low', 'volume'];
 
   constructor() { }
 
@@ -22,7 +20,7 @@ export class StockChartCanvasComponent implements OnInit, AfterViewInit, OnChang
   }
 
   ngAfterViewInit() {
-    const ctx = this.canvas.nativeElement;
+    const ctx: HTMLCanvasElement = this.canvas.nativeElement;
     this.stockChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -33,8 +31,8 @@ export class StockChartCanvasComponent implements OnInit, AfterViewInit, OnChang
             lineTension: 0.1,
             borderColor: 'rgb(255, 99, 132)',
             data: [],
-            pointBackgroundColor: 'green',
-            pointRadius: 1
+            pointBackgroundColor: 'pink',
+            pointRadius: 4
         }]
       },
       options: {
@@ -58,6 +56,14 @@ export class StockChartCanvasComponent implements OnInit, AfterViewInit, OnChang
               }
             }
           ]
+        },
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem, _) => {
+              const selectedStock = this.stocks[tooltipItem.index];
+              return this.toolTipLabels.map(label => `${label}: ${selectedStock[label]}`);
+            }
+          }
         }
       }
     });
